@@ -7,9 +7,11 @@ use Symfony\Component\Dotenv\Dotenv;
 
 class CheckerTest extends TestCase
 {
-	public function testMerchantOrder()
-	{
+	private string $MP_ACCESS_TOKEN;
+	private string $MP_BASEURI;
 
+	private function init()
+	{
 		$dotenv = new Dotenv();
 		if (file_exists(__DIR__ . "/../../.env.local")) {
 
@@ -19,13 +21,27 @@ class CheckerTest extends TestCase
 			$dotenv->loadEnv(__DIR__ . "/../../.env");
 		}
 
-		$MP_ACCESS_TOKEN = getenv('MP_ACCESS_TOKEN') ? getenv('MP_ACCESS_TOKEN') : (isset($_ENV['MP_ACCESS_TOKEN']) ? $_ENV['MP_ACCESS_TOKEN'] : null);
-		$MP_BASEURI = getenv('MP_BASEURI') ? getenv('MP_BASEURI') : (isset($_ENV['MP_BASEURI']) ? $_ENV['MP_BASEURI'] : null);
+		$MP_ENV = getenv('MP_ENV') ? getenv('MP_ENV') : (isset($_ENV['MP_ENV']) ? $_ENV['MP_ENV'] : 'dev');
 
-		$this->assertNotEmpty($MP_ACCESS_TOKEN);
-		$this->assertNotEmpty($MP_BASEURI);
+		$this->MP_ACCESS_TOKEN = getenv('MP_ACCESS_TOKEN') ? getenv('MP_ACCESS_TOKEN') : (isset($_ENV['MP_ACCESS_TOKEN']) ? $_ENV['MP_ACCESS_TOKEN'] : null);
+		$MP_TEST_ACCESS_TOKEN = getenv('MP_TEST_ACCESS_TOKEN') ? getenv('MP_TEST_ACCESS_TOKEN') : (isset($_ENV['MP_TEST_ACCESS_TOKEN']) ? $_ENV['MP_TEST_ACCESS_TOKEN'] : null);
 
-		$MPChecker = new Checker($MP_ACCESS_TOKEN, $MP_BASEURI);
+		$this->assertNotEmpty($this->MP_ACCESS_TOKEN);
+		$this->assertNotEmpty($MP_TEST_ACCESS_TOKEN);
+
+		$this->MP_ACCESS_TOKEN = $MP_ENV === 'prod' ? $this->MP_ACCESS_TOKEN : $MP_TEST_ACCESS_TOKEN;
+
+		$this->MP_BASEURI = getenv('MP_BASEURI') ? getenv('MP_BASEURI') : (isset($_ENV['MP_BASEURI']) ? $_ENV['MP_BASEURI'] : null);
+
+		$this->assertNotEmpty($this->MP_BASEURI);
+	}
+
+	public function testMerchantOrder()
+	{
+
+		$this->init();
+
+		$MPChecker = new Checker($this->MP_ACCESS_TOKEN, $this->MP_BASEURI);
 
 		$this->assertNotEmpty($MPChecker);
 
