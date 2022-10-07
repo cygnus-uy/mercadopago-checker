@@ -25,16 +25,30 @@ final class Checker
 		$this->serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
 	}
 
-	public function getMerchantOrder(int $id): ?MerchantOrder
+	public function getMerchantOrderEntity(int $id): ?MerchantOrder
 	{
-		$data = $this->getDataMerchantOrder($id);
+		$data = $this->getMerchantOrderData($id);
 
 		return $this->serializer->deserialize($data, MerchantOrder::class, 'json');
 	}
 
-	public function getDataMerchantOrder(int $id): string
+	public function getMerchantOrderData(int $id): string
 	{
 		$response = $this->client->request('GET', "/merchant_orders/{$id}", [
+			'headers' => ['Authorization' => "Bearer {$this->accessToken}"]
+		]);
+
+		if (in_array($response->getStatusCode(), [400, 401])) {
+
+			return null;
+		}
+
+		return $response->getBody()->getContents();
+	}
+
+	public function getMerchantOrderDataList(): string
+	{
+		$response = $this->client->request('GET', "/merchant_orders/search", [
 			'headers' => ['Authorization' => "Bearer {$this->accessToken}"]
 		]);
 

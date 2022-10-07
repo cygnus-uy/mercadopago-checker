@@ -45,7 +45,7 @@ class CheckerTest extends TestCase
 
 		$this->assertNotEmpty($MPChecker);
 
-		$data = $MPChecker->getMerchantOrder(5968295944);
+		$data = $MPChecker->getMerchantOrderEntity(5968295944);
 
 		$this->assertNotEmpty($data);
 		$this->assertInstanceOf(MerchantOrder::class, $data);
