@@ -1,0 +1,33 @@
+{
+    "name": "cygnus-uy/mercadopago-checker",
+    "type": "library",
+    "description": "Verificador de transacciones MercadoPago.",
+    "keywords": [
+        "mercadopago"
+    ],
+    "require": {
+        "php": "^7.2 || ^8.1",
+        "guzzlehttp/guzzle": "^7.5",
+        "symfony/serializer": "5.4"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CygnusUy\\MercadopagoChecker\\": "src/"
+        },
+        "exclude-from-classmap": [
+            "src/Tests/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Samuel Alvarez Quintero",
+            "email": "samuel@cygnus.com.uy"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "symfony/dotenv": "5.4",
+        "phpunit/phpunit": "9.5"
+    }
+}
