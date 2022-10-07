@@ -18,7 +18,7 @@ final class Checker
 	/**
 	 * @param string $accessToken
 	 */
-	public function __construct(string $accessToken, string $baseUri = 'https://api.mercadopago.com')
+	public function __construct(string $accessToken, string $baseUri)
 	{
 		$this->accessToken = $accessToken;
 		$this->client = new Client(['base_uri' => $baseUri]);
@@ -26,6 +26,13 @@ final class Checker
 	}
 
 	public function getMerchantOrder(int $id): ?MerchantOrder
+	{
+		$data = $this->getDataMerchantOrder($id);
+
+		return $this->serializer->deserialize($data, MerchantOrder::class, 'json');
+	}
+
+	public function getDataMerchantOrder(int $id): string
 	{
 		$response = $this->client->request('GET', "/merchant_orders/{$id}", [
 			'headers' => ['Authorization' => "Bearer {$this->accessToken}"]
@@ -36,6 +43,6 @@ final class Checker
 			return null;
 		}
 
-		return $this->serializer->deserialize($response->getBody(), MerchantOrder::class, 'json');
+		return $response->getBody()->getContents();
 	}
 }
