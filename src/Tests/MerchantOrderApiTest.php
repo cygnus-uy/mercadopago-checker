@@ -1,11 +1,11 @@
 <?php
 
-use CygnusUy\MercadopagoChecker\Api\Checker;
-use CygnusUy\MercadopagoChecker\Entity\MerchantOrder;
+use CygnusUy\MercadoPagoSDK\Api\MerchantOrderApi;
+use CygnusUy\MercadoPagoSDK\Entity\MerchantOrder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
 
-class CheckerTest extends TestCase
+class MerchantOrderApiTest extends TestCase
 {
 	private string $MP_ACCESS_TOKEN;
 	private string $MP_BASEURI;
@@ -41,11 +41,11 @@ class CheckerTest extends TestCase
 
 		$this->init();
 
-		$MPChecker = new Checker($this->MP_ACCESS_TOKEN, $this->MP_BASEURI);
+		$merchantOrderApi = new MerchantOrderApi($this->MP_ACCESS_TOKEN, $this->MP_BASEURI);
 
-		$this->assertNotEmpty($MPChecker);
+		$this->assertNotEmpty($merchantOrderApi);
 
-		$data = $MPChecker->getMerchantOrderEntity(5968295944);
+		$data = $merchantOrderApi->getMerchantOrderEntity(5968295944);
 
 		$this->assertNotEmpty($data);
 		$this->assertInstanceOf(MerchantOrder::class, $data);

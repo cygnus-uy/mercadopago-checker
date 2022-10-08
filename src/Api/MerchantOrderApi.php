@@ -1,14 +1,14 @@
 <?php
 
-namespace CygnusUy\MercadopagoChecker\Api;
+namespace CygnusUy\MercadoPagoSDK\Api;
 
-use CygnusUy\MercadopagoChecker\Entity\MerchantOrder;
+use CygnusUy\MercadoPagoSDK\Entity\MerchantOrder;
 use GuzzleHttp\Client;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-final class Checker
+final class MerchantOrderApi
 {
 
 	private string $accessToken;

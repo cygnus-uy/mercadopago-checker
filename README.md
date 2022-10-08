@@ -1,1 +1,1 @@
-# mercadopago-checker
+# Mercado Pago SDK

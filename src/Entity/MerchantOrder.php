@@ -1,6 +1,6 @@
 <?php
 
-namespace CygnusUy\MercadopagoChecker\Entity;
+namespace CygnusUy\MercadoPagoSDK\Entity;
 
 class MerchantOrder
 {

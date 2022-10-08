@@ -1,7 +1,7 @@
 {
-    "name": "cygnus-uy/mercadopago-checker",
+    "name": "cygnus-uy/mercadopago-sdk",
     "type": "library",
-    "description": "Verificador de transacciones MercadoPago.",
+    "description": "Mercado Pago SDK desarrollada por Cygnus UY.",
     "keywords": [
         "mercadopago"
     ],
@@ -14,7 +14,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "CygnusUy\\MercadopagoChecker\\": "src/"
+            "CygnusUy\\MercadoPagoSDK\\": "src/"
         },
         "exclude-from-classmap": [
             "src/Tests/"
