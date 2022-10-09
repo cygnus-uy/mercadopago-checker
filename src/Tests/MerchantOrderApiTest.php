@@ -49,5 +49,24 @@ class MerchantOrderApiTest extends TestCase
 
 		$this->assertNotEmpty($data);
 		$this->assertInstanceOf(MerchantOrder::class, $data);
+
+		// var_dump($data);
+	}
+
+	public function testMerchantOrderList()
+	{
+
+		$this->init();
+
+		$merchantOrderApi = new MerchantOrderApi($this->MP_ACCESS_TOKEN, $this->MP_BASEURI);
+
+		$this->assertNotEmpty($merchantOrderApi);
+
+		$dataList = $merchantOrderApi->getMerchantOrderEntityList();
+
+		$this->assertNotEmpty($dataList);
+		$this->assertIsArray($dataList);
+
+		// var_dump($dataList);
 	}
 }

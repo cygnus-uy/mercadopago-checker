@@ -5,21 +5,42 @@ namespace CygnusUy\MercadoPagoSDK\Entity;
 class MerchantOrder
 {
 	private int $id;
-	private string $status;
-	private string $externalReference;
-	private string $preferenceId;
-	private string $marketplace;
-	private string $dateCreated;
-	private string $lastUpdated;
-	private int $shippingCost;
-	private int $totalAmount;
-	private string $siteId;
-	private int $paidAmount;
-	private int $refundedAmount;
+
+	private ?string $status;
+
+	private ?string $externalReference;
+
+	private ?string $preferenceId;
+
+	private ?array $payments;
+
+	private ?string $marketplace;
+
+	private ?string $dateCreated;
+
+	private ?string $lastUpdated;
+
+	private ?int $shippingCost;
+
+	private ?int $totalAmount;
+
+	private ?string $siteId;
+
+	private ?int $paidAmount;
+
+	private ?int $refundedAmount;
+
+	private ?array $payer;
+
+	private ?array $items;
+
 	private bool $cancelled;
-	private string $additionalInfo;
+
+	private ?string $additionalInfo;
+
 	private ?int $applicationId;
-	private string $orderStatus;
+
+	private ?string $orderStatus;
 
 	public function getId(): int
 	{
@@ -32,124 +53,157 @@ class MerchantOrder
 		return $this;
 	}
 
-	public function getStatus(): string
+	public function getStatus(): ?string
 	{
 		return $this->status;
 	}
 
-	public function setStatus(string $status): self
+	public function setStatus(?string $status): self
 	{
 		$this->status = $status;
 		return $this;
 	}
 
-	public function getExternalReference(): string
+	public function getExternalReference(): ?string
 	{
 		return $this->externalReference;
 	}
 
-	public function setExternalReference(string $externalReference): self
+	public function setExternalReference(?string $externalReference): self
 	{
 		$this->externalReference = $externalReference;
 		return $this;
 	}
 
-	public function getPreferenceId(): string
+	public function getPreferenceId(): ?string
 	{
 		return $this->preferenceId;
 	}
 
-	public function setPreferenceId(string $preferenceId): self
+	public function setPreferenceId(?string $preferenceId): self
 	{
 		$this->preferenceId = $preferenceId;
 		return $this;
 	}
 
-	public function getMarketplace(): string
+	public function getPayments(): ?array
+	{
+		return $this->payments;
+	}
+
+	public function setPayments(?array $payments): self
+	{
+		$this->payments = $payments;
+		return $this;
+	}
+
+	public function getMarketplace(): ?string
 	{
 		return $this->marketplace;
 	}
 
-	public function setMarketplace(string $marketplace): self
+	public function setMarketplace(?string $marketplace): self
 	{
 		$this->marketplace = $marketplace;
 		return $this;
 	}
 
-	public function getDateCreated(): string
+	public function getDateCreated(): ?string
 	{
 		return $this->dateCreated;
 	}
 
-	public function setDateCreated(string $dateCreated): self
+	public function setDateCreated(?string $dateCreated): self
 	{
 		$this->dateCreated = $dateCreated;
 		return $this;
 	}
 
-	public function getLastUpdated(): string
+	public function getLastUpdated(): ?string
 	{
 		return $this->lastUpdated;
 	}
 
-	public function setLastUpdated(string $lastUpdated): self
+	public function setLastUpdated(?string $lastUpdated): self
 	{
 		$this->lastUpdated = $lastUpdated;
 		return $this;
 	}
 
-	public function getShippingCost(): int
+	public function getShippingCost(): ?int
 	{
 		return $this->shippingCost;
 	}
 
-	public function setShippingCost(int $shippingCost): self
+	public function setShippingCost(?int $shippingCost): self
 	{
 		$this->shippingCost = $shippingCost;
 		return $this;
 	}
 
-	public function getTotalAmount(): int
+	public function getTotalAmount(): ?int
 	{
 		return $this->totalAmount;
 	}
 
-	public function setTotalAmount(int $totalAmount): self
+	public function setTotalAmount(?int $totalAmount): self
 	{
 		$this->totalAmount = $totalAmount;
 		return $this;
 	}
 
-	public function getSiteIds(): string
+	public function getSiteIds(): ?string
 	{
 		return $this->siteId;
 	}
 
-	public function setSiteId(string $siteId): self
+	public function setSiteId(?string $siteId): self
 	{
 		$this->siteId = $siteId;
 		return $this;
 	}
 
-	public function getPaidAmount(): int
+	public function getPaidAmount(): ?int
 	{
 		return $this->paidAmount;
 	}
 
-	public function setPaidAmount(int $paidAmount): self
+	public function setPaidAmount(?int $paidAmount): self
 	{
 		$this->paidAmount = $paidAmount;
 		return $this;
 	}
 
-	public function getRefundedAmount(): int
+	public function getRefundedAmount(): ?int
 	{
 		return $this->refundedAmount;
 	}
 
-	public function setRefundedAmount(int $refundedAmount): self
+	public function setRefundedAmount(?int $refundedAmount): self
 	{
 		$this->refundedAmount = $refundedAmount;
+		return $this;
+	}
+
+	public function getPayer(): ?array
+	{
+		return $this->payer;
+	}
+
+	public function setPayer(?array $payer): self
+	{
+		$this->payer = $payer;
+		return $this;
+	}
+
+	public function getItems(): ?array
+	{
+		return $this->items;
+	}
+
+	public function setItems(?array $items): self
+	{
+		$this->items = $items;
 		return $this;
 	}
 
@@ -164,18 +218,18 @@ class MerchantOrder
 		return $this;
 	}
 
-	public function getAdditionalInfo(): string
+	public function getAdditionalInfo(): ?string
 	{
 		return $this->additionalInfo;
 	}
 
-	public function setAdditionalInfo(string $additionalInfo): self
+	public function setAdditionalInfo(?string $additionalInfo): self
 	{
 		$this->additionalInfo = $additionalInfo;
 		return $this;
 	}
 
-	public function getApplicationId(): int
+	public function getApplicationId(): ?int
 	{
 		return $this->applicationId;
 	}
@@ -186,12 +240,12 @@ class MerchantOrder
 		return $this;
 	}
 
-	public function getOrderStatus(): string
+	public function getOrderStatus(): ?string
 	{
 		return $this->orderStatus;
 	}
 
-	public function setOrderStatus(string $orderStatus): self
+	public function setOrderStatus(?string $orderStatus): self
 	{
 		$this->orderStatus = $orderStatus;
 		return $this;

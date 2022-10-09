@@ -3,6 +3,7 @@
 namespace CygnusUy\MercadoPagoSDK\Api;
 
 use CygnusUy\MercadoPagoSDK\Entity\MerchantOrder;
+use CygnusUy\MercadoPagoSDK\Entity\Payment;
 use GuzzleHttp\Client;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -15,9 +16,6 @@ final class MerchantOrderApi
 	private Client $client;
 	private Serializer $serializer;
 
-	/**
-	 * @param string $accessToken
-	 */
 	public function __construct(string $accessToken, string $baseUri)
 	{
 		$this->accessToken = $accessToken;
@@ -29,7 +27,57 @@ final class MerchantOrderApi
 	{
 		$data = $this->getMerchantOrderData($id);
 
-		return $this->serializer->deserialize($data, MerchantOrder::class, 'json');
+		/**
+		 * @var MerchantOrder $merchantOrder
+		 */
+		$merchantOrder = $this->serializer->deserialize($data, MerchantOrder::class, 'json');
+
+		$merchantOrder->setPayments(
+			$merchantOrder->getPayments() ?
+				$this->deserializeToPaymentEntityList($merchantOrder->getPayments()) :
+				[]
+		);
+
+		return $merchantOrder;
+	}
+
+	/**
+	 * @return array|MerchantOrder[]
+	 */
+	public function getMerchantOrderEntityList(): array
+	{
+		$result = [];
+		$data = $this->getMerchantOrderDataList();
+		$data = json_decode($data, true);
+
+		if ($data) {
+			$elements = $data['elements'];
+			$total = $data['total'];
+
+			if ($total) {
+				foreach ($elements as $key => $_mo_item) {
+
+					$_mo_item = json_encode($_mo_item);
+
+					if ($_mo_item) {
+						/**
+						 * @var MerchantOrder $merchantOrder
+						 */
+						$merchantOrder = $this->serializer->deserialize($_mo_item, MerchantOrder::class, 'json');
+
+						$merchantOrder->setPayments(
+							$merchantOrder->getPayments() ?
+								$this->deserializeToPaymentEntityList($merchantOrder->getPayments()) :
+								[]
+						);
+
+						array_push($result, $merchantOrder);
+					}
+				}
+			}
+		}
+
+		return $result;
 	}
 
 	public function getMerchantOrderData(int $id): string
@@ -58,5 +106,30 @@ final class MerchantOrderApi
 		}
 
 		return $response->getBody()->getContents();
+	}
+
+	private function deserializeToPaymentEntity(array $payment): ?Payment
+	{
+		$payment = json_encode($payment);
+
+		return $payment ? $this->serializer->deserialize($payment, Payment::class, 'json') : null;
+	}
+
+	/**
+	 * @return array|Payment[]
+	 */
+	private function deserializeToPaymentEntityList(array $payments): array
+	{
+		$result = [];
+		foreach ($payments as $_i_p => $_payment) {
+
+			$payment = $this->deserializeToPaymentEntity($_payment);
+
+			if ($payment) {
+				array_push($result, $payment);
+			}
+		}
+
+		return $result;
 	}
 }
