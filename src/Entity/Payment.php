@@ -28,11 +28,11 @@ class Payment
 
 	private ?int $collectorId;
 
-	private ?int $transactionAmount;
+	private ?float $transactionAmount;
 
-	private ?int $transactionAmountRefunded;
+	private ?float $transactionAmountRefunded;
 
-	private ?int $couponAmount;
+	private ?float $couponAmount;
 
 	private ?int $installments;
 
@@ -168,34 +168,34 @@ class Payment
 		return $this;
 	}
 
-	public function getTransactionAmount(): ?int
+	public function getTransactionAmount(): ?float
 	{
 		return $this->transactionAmount;
 	}
 
-	public function setTransactionAmount(?int $transactionAmount): self
+	public function setTransactionAmount(?float $transactionAmount): self
 	{
 		$this->transactionAmount = $transactionAmount;
 		return $this;
 	}
 
-	public function getTransactionAmountRefunded(): ?int
+	public function getTransactionAmountRefunded(): ?float
 	{
 		return $this->transactionAmountRefunded;
 	}
 
-	public function setTransactionAmountRefunded(int $transactionAmountRefunded): self
+	public function setTransactionAmountRefunded(float $transactionAmountRefunded): self
 	{
 		$this->transactionAmountRefunded = $transactionAmountRefunded;
 		return $this;
 	}
 
-	public function getCouponAmount(): ?int
+	public function getCouponAmount(): ?float
 	{
 		return $this->couponAmount;
 	}
 
-	public function setCouponAmount(?int $couponAmount): self
+	public function setCouponAmount(?float $couponAmount): self
 	{
 		$this->couponAmount = $couponAmount;
 		return $this;

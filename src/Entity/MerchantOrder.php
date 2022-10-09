@@ -20,15 +20,15 @@ class MerchantOrder
 
 	private ?string $lastUpdated;
 
-	private ?int $shippingCost;
+	private ?float $shippingCost;
 
-	private ?int $totalAmount;
+	private ?float $totalAmount;
 
 	private ?string $siteId;
 
-	private ?int $paidAmount;
+	private ?float $paidAmount;
 
-	private ?int $refundedAmount;
+	private ?float $refundedAmount;
 
 	private ?array $payer;
 
@@ -130,23 +130,23 @@ class MerchantOrder
 		return $this;
 	}
 
-	public function getShippingCost(): ?int
+	public function getShippingCost(): ?float
 	{
 		return $this->shippingCost;
 	}
 
-	public function setShippingCost(?int $shippingCost): self
+	public function setShippingCost(?float $shippingCost): self
 	{
 		$this->shippingCost = $shippingCost;
 		return $this;
 	}
 
-	public function getTotalAmount(): ?int
+	public function getTotalAmount(): ?float
 	{
 		return $this->totalAmount;
 	}
 
-	public function setTotalAmount(?int $totalAmount): self
+	public function setTotalAmount(?float $totalAmount): self
 	{
 		$this->totalAmount = $totalAmount;
 		return $this;
@@ -163,23 +163,23 @@ class MerchantOrder
 		return $this;
 	}
 
-	public function getPaidAmount(): ?int
+	public function getPaidAmount(): ?float
 	{
 		return $this->paidAmount;
 	}
 
-	public function setPaidAmount(?int $paidAmount): self
+	public function setPaidAmount(?float $paidAmount): self
 	{
 		$this->paidAmount = $paidAmount;
 		return $this;
 	}
 
-	public function getRefundedAmount(): ?int
+	public function getRefundedAmount(): ?float
 	{
 		return $this->refundedAmount;
 	}
 
-	public function setRefundedAmount(?int $refundedAmount): self
+	public function setRefundedAmount(?float $refundedAmount): self
 	{
 		$this->refundedAmount = $refundedAmount;
 		return $this;
