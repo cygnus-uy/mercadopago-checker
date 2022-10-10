@@ -1,7 +1,9 @@
 <?php
 
 use CygnusUy\MercadoPagoSDK\Api\MerchantOrderApi;
+use CygnusUy\MercadoPagoSDK\Api\PaymentApi;
 use CygnusUy\MercadoPagoSDK\Entity\MerchantOrder;
+use CygnusUy\MercadoPagoSDK\Entity\Payment;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -45,7 +47,7 @@ class MerchantOrderApiTest extends TestCase
 
 		$this->assertNotEmpty($merchantOrderApi);
 
-		$data = $merchantOrderApi->getMerchantOrderEntity(5968295944);
+		$data = $merchantOrderApi->getMerchantOrderEntity(5956787198);
 
 		$this->assertNotEmpty($data);
 		$this->assertInstanceOf(MerchantOrder::class, $data);
@@ -62,7 +64,65 @@ class MerchantOrderApiTest extends TestCase
 
 		$this->assertNotEmpty($merchantOrderApi);
 
-		$dataList = $merchantOrderApi->getMerchantOrderEntityList();
+		$queryVars = [
+			'status' => '',
+			'preference_id' => '',
+			'application_id' => '',
+			'payer_id' => '',
+			'sponsor_id' => '',
+			'external_reference' => '',
+			'site_id' => '',
+			'marketplace' => '',
+			'date_created_from' => '',
+			'date_created_to' => '',
+			'last_updated_from' => '',
+			'last_updated_to' => '',
+			'items' => '',
+			'limit' => '',
+			'offset' => '',
+		];
+
+		$dataList = $merchantOrderApi->getMerchantOrderEntityList($queryVars);
+
+		$this->assertNotEmpty($dataList);
+		$this->assertIsArray($dataList);
+
+		// var_dump($dataList);
+	}
+
+	public function testPayment()
+	{
+
+		$this->init();
+
+		$paymentApi = new PaymentApi($this->MP_ACCESS_TOKEN, $this->MP_BASEURI);
+
+		$this->assertNotEmpty($paymentApi);
+
+		$data = $paymentApi->getPaymentEntity(26165265485);
+
+		$this->assertNotEmpty($data);
+		$this->assertInstanceOf(Payment::class, $data);
+
+		// var_dump($data);
+	}
+
+	public function testPaymentList()
+	{
+
+		$this->init();
+
+		$paymentApi = new PaymentApi($this->MP_ACCESS_TOKEN, $this->MP_BASEURI);
+
+		$this->assertNotEmpty($paymentApi);
+
+		$queryVars = [
+			// 'sort' => '',
+			'criteria' => 'desc',
+			// 'external_reference' => '',
+		];
+
+		$dataList = $paymentApi->getPaymentEntityList($queryVars);
 
 		$this->assertNotEmpty($dataList);
 		$this->assertIsArray($dataList);

@@ -34,6 +34,8 @@ class Payment
 
 	private ?float $couponAmount;
 
+	private ?array $transactionDetails;
+
 	private ?int $installments;
 
 	public function getId(): int
@@ -198,6 +200,17 @@ class Payment
 	public function setCouponAmount(?float $couponAmount): self
 	{
 		$this->couponAmount = $couponAmount;
+		return $this;
+	}
+
+	public function getTransactionDetails(): ?array
+	{
+		return $this->transactionDetails;
+	}
+
+	public function setTransactionDetails(?array $transactionDetails): self
+	{
+		$this->transactionDetails = $transactionDetails;
 		return $this;
 	}
 

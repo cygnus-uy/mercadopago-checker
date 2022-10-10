@@ -13,12 +13,16 @@ final class MerchantOrderApi
 {
 
 	private string $accessToken;
+	private string $baseUri;
+
 	private Client $client;
 	private Serializer $serializer;
 
 	public function __construct(string $accessToken, string $baseUri)
 	{
 		$this->accessToken = $accessToken;
+		$this->baseUri = $baseUri;
+
 		$this->client = new Client(['base_uri' => $baseUri]);
 		$this->serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
 	}
@@ -42,12 +46,31 @@ final class MerchantOrderApi
 	}
 
 	/**
+	 * getMerchantOrderEntityList function
+	 *
+	 * @param array $queryVars = [ 
+	 * 'status' => '',
+	 * 'preference_id' => '',
+	 * 'application_id' => '',
+	 * 'payer_id' => '',
+	 * 'sponsor_id' => '',
+	 * 'external_reference' => '',
+	 * 'site_id' => '',
+	 * 'marketplace' => '',
+	 * 'date_created_from' => '',
+	 * 'date_created_to' => '',
+	 * 'last_updated_from' => '',
+	 * 'last_updated_to' => '',
+	 * 'items' => '',
+	 * 'limit' => '',
+	 * 'offset' => '',
+	 * ]
 	 * @return array|MerchantOrder[]
 	 */
-	public function getMerchantOrderEntityList(): array
+	public function getMerchantOrderEntityList(array $queryVars = []): array
 	{
 		$result = [];
-		$data = $this->getMerchantOrderDataList();
+		$data = $this->getMerchantOrderDataList($queryVars);
 		$data = json_decode($data, true);
 
 		if ($data) {
@@ -94,9 +117,33 @@ final class MerchantOrderApi
 		return $response->getBody()->getContents();
 	}
 
-	public function getMerchantOrderDataList(): string
+	/**
+	 * getMerchantOrderDataList function
+	 *
+	 * @param array $queryVars = [ 
+	 * 'status' => '',
+	 * 'preference_id' => '',
+	 * 'application_id' => '',
+	 * 'payer_id' => '',
+	 * 'sponsor_id' => '',
+	 * 'external_reference' => '',
+	 * 'site_id' => '',
+	 * 'marketplace' => '',
+	 * 'date_created_from' => '',
+	 * 'date_created_to' => '',
+	 * 'last_updated_from' => '',
+	 * 'last_updated_to' => '',
+	 * 'items' => '',
+	 * 'limit' => '',
+	 * 'offset' => '',
+	 * ]
+	 * @return string
+	 */
+	public function getMerchantOrderDataList(array $queryVars = []): string
 	{
-		$response = $this->client->request('GET', "/merchant_orders/search", [
+		$queryVarsStr = http_build_query($queryVars);
+
+		$response = $this->client->request('GET', "/merchant_orders/search?$queryVarsStr", [
 			'headers' => ['Authorization' => "Bearer {$this->accessToken}"]
 		]);
 
@@ -108,9 +155,18 @@ final class MerchantOrderApi
 		return $response->getBody()->getContents();
 	}
 
-	private function deserializeToPaymentEntity(array $payment): ?Payment
+	private function deserializeToPaymentEntity(array $payment, bool $searchFullEntity = true): ?Payment
 	{
-		$payment = json_encode($payment);
+
+		if ($searchFullEntity and isset($payment['id'])) {
+
+			$id = $payment['id'];
+			$paymentApi = new PaymentApi($this->accessToken, $this->baseUri);
+			$payment = $paymentApi->getPaymentData($id);
+		} else {
+
+			$payment = json_encode($payment);
+		}
 
 		return $payment ? $this->serializer->deserialize($payment, Payment::class, 'json') : null;
 	}
